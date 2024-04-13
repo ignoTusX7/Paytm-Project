@@ -4,7 +4,7 @@ import { Card } from "@ignotus/ui";
 import { Select } from "@ignotus/ui";
 import { useState } from "react";
 import { TextInput } from "@ignotus/ui";
-// import { createOnRampTransaction } from "../app/lib/actions/createOnrampTransaction";
+import { createOnRampTransaction } from "../app/lib/actions/createOnRampTransaction";
 
 const SUPPORTED_BANKS = [
   {
@@ -24,7 +24,6 @@ export const AddMoney = () => {
 
   const [provider, setProvider] = useState(SUPPORTED_BANKS[0]?.name || "");
   const [value, setValue] = useState(0);
-
   return (
     <Card title="Add Money">
       <div className="w-full">
@@ -33,7 +32,7 @@ export const AddMoney = () => {
           type="number"
           name="amount"
           handleOnChange={(val) => {
-            setValue(Number(val));
+            setValue(Number(val.target.value));
           }}
         />
 
@@ -55,7 +54,7 @@ export const AddMoney = () => {
         <div className="flex justify-center pt-4">
           <Button
             handleOnClick={async () => {
-              //   await createOnRampTransaction(provider, value);
+              await createOnRampTransaction(provider, value);
               window.location.href = redirectUrl || "";
             }}
           >
