@@ -8,14 +8,14 @@ datasource db {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
-  email        String?   @unique
-  name         String?
-  mobileNumber String    @unique
-  password     String
-  Balance      Balance[]
+  id                Int                 @id @default(autoincrement())
+  email             String?             @unique
+  name              String?
+  mobileNumber      String              @unique
+  password          String
+  Balance           Balance[]
   OnRampTransaction OnRampTransaction[]
-  createdAt    DateTime  @default(now())
+  createdAt         DateTime            @default(now())
 }
 
 model Merchant {
@@ -40,7 +40,7 @@ model OnRampTransaction {
   token     String       @unique
   provider  String
   amount    Int
-  startTime DateTime
+  startTime DateTime     @default(now())
   userId    Int
   user      User         @relation(fields: [userId], references: [id])
 }

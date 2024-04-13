@@ -11,6 +11,14 @@ async function main() {
       mobileNumber: "9876543210",
       email: "bob@example.com",
       password: await bcrypt.hash("123456", 10),
+      OnRampTransaction: {
+        create: {
+          token: "thisissecrettoken",
+          status: "Success",
+          provider: "HDFC",
+          amount: 20000,
+        },
+      },
       Balance: {
         create: {
           amount: 100000,
@@ -25,10 +33,18 @@ async function main() {
       mobileNumber: "1234567890",
     },
     create: {
-      name: "Bob",
+      name: "Alice",
       mobileNumber: "1234567890",
       email: "alice@example.com",
       password: await bcrypt.hash("123456", 10),
+      OnRampTransaction: {
+        create: {
+          token: "thisissecret2",
+          status: "Processing",
+          provider: "HDFC",
+          amount: 20000,
+        },
+      },
       Balance: {
         create: {
           amount: 100000,
