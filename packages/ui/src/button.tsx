@@ -11,7 +11,7 @@ interface ButtonProps {
 export const Button = ({ children, className, handleOnClick }: ButtonProps) => {
   return (
     <button
-      className={`${className} bg-[#00baf2] rounded-md text-white p-2 hover:bg-[#00a1f2] duration-150`}
+      className={`${className} bg-[#00baf2] rounded-full text-white p-3 hover:bg-[#00a1f2] duration-150`}
       onClick={handleOnClick}
     >
       {children}
