@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+::-webkit-scrollbar {
+    width: 6px; /* Width of vertical scrollbar */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #e7e7e7; /* Track color */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #888; /* Thumb color */
+    border-radius: 6px; /* Rounded corners */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Hover color */
+  }
+  
+  /* Horizontal scrollbar */
+  ::-webkit-scrollbar-horizontal {
+    height: 12px; /* Height of horizontal scrollbar */
+  }
+  
+  /* Handle horizontal scrollbar */
+  ::-webkit-scrollbar-thumb:horizontal {
+    background: #888;
+  }
+  
+  /* Resize corner */
+  ::-webkit-resizer {
+    background: #f1f1f1;
+  }
+  
+  /* Optional: WebKit browsers */
+  /* Define what happens on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
