@@ -4,7 +4,7 @@ import db from "@ignotus/db/client";
 import bcrypt from "bcrypt";
 import type { JWT } from "next-auth/jwt";
 
-interface INewSession extends Session {
+export interface INewSession extends Session {
   user: {
     id: string | undefined;
   };
