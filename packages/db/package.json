@@ -1,5 +1,5 @@
 {
-  "name": "@ignotus/store",
+  "name": "@ignotus/db",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
