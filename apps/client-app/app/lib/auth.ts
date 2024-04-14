@@ -56,6 +56,12 @@ export const authOption: AuthOptions = {
             data: {
               mobileNumber: credentials.mobileNumber,
               password: hashedPass,
+              Balance: {
+                create: {
+                  amount: 0,
+                  locked: 0,
+                },
+              },
             },
           });
           return {
