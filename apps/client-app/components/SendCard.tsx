@@ -80,10 +80,14 @@ export function SendCard() {
       </Center>
       <Center>
         <div>
-          {user.name && (
+          {user.mobileNumber && (
             <Card title="User">
-              <div className="text-lg mb-4">Name: {user.name}</div>
-              <div className="text-lg mb-4">Email: {user.email}</div>
+              <div className="text-lg mb-4">
+                Name: {user.name != null ? user.name : "Unknown"}
+              </div>
+              <div className="text-lg mb-4">
+                Email: {user.email != null ? user.email : "Unknown"}
+              </div>
               <div className="text-lg mb-4">
                 Mobile Number: {user.mobileNumber}
               </div>

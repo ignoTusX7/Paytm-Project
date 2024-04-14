@@ -17,7 +17,7 @@ interface ITransactionsProps {
   } | null;
 }
 
-const NoTransactionCard = ({label}: {label : string}) => {
+const NoTransactionCard = ({ label }: { label: string }) => {
   return (
     <Card title={label}>
       <div className="text-center pb-8 pt-8">No Recent transactions</div>
@@ -44,7 +44,7 @@ export const P2PTransactions = ({ transactions }: ITransactionsProps) => {
               </div>
             </Card>
           ) : (
-            <NoTransactionCard label={"Received Transactions"}/>
+            <NoTransactionCard label={"Received Transactions"} />
           )}
         </div>
         <div>
