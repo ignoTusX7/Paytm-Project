@@ -50,7 +50,7 @@ export function SendCard() {
   };
 
   return (
-    <div className="h-[90vh] flex gap-4">
+    <div className="h-[90vh] flex flex-col md:flex-row gap-4 mx-auto md:mx-0">
       <Center>
         <Card title="Send">
           <div className="min-w-72 pt-2">
