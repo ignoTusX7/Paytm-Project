@@ -18,6 +18,7 @@ const HeroSection: React.FC = () => {
         <Button className="bg-white text-blue-600 py-2 px-6 rounded-full font-semibold hover:bg-blue-100 transition duration-300">
           <Link
             href={`${session.data?.user ? "/dashboard" : "/api/auth/signin"}`}
+            className="text-blue-600"
           >
             Get Started
           </Link>
