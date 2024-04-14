@@ -32,7 +32,7 @@ app.post("/hdfc", async (req, res) => {
         status: "Success",
       },
     });
-    
+
     if (alreadyDone) {
       return res.json({ message: "Already Captured" });
     }
