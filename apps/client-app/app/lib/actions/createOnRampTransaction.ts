@@ -25,6 +25,7 @@ export async function createOnRampTransaction(
       token: token,
       amount: Number(amount) * 100,
       status: "Processing",
+      startTime: new Date(),
       provider,
       userId: Number(session.user.id),
     },
