@@ -34,7 +34,13 @@ export const OnRampTransactions = ({
               </div>
               <div>
                 <p className="font-semibold">
-                  Status: <span> {t.status} </span>{" "}
+                  Status:{" "}
+                  <span
+                    className={`${t.status === "Failure" ? "text-red-500" : "text-black"} ${t.status === "Success" ? "text-green-500" : "text-black"}`}
+                  >
+                    {" "}
+                    {t.status}{" "}
+                  </span>{" "}
                 </p>
               </div>
             </div>
