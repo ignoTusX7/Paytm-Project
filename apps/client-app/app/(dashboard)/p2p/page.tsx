@@ -1,5 +1,8 @@
 import React from "react";
+import { SendCard } from "../../../components/SendCard";
 
 export default function P2P() {
-  return <div>P2P</div>;
+  return <div>
+    <SendCard/>
+  </div>;
 }
