@@ -12,10 +12,9 @@ export const fetchUser = async (mobileNumber: string) => {
       mobileNumber: true,
     },
   });
-  if(user){
-      return user;
-  }
-  else {
+  if (user) {
+    return user;
+  } else {
     return null;
   }
 };
