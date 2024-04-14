@@ -1,7 +1,15 @@
-import express from "express";
+import express, { json } from "express";
 const PORT = 3003 || process.env.PORT;
 const app = express();
-import db from "@ignotus/db/client";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+import { z } from "zod";
+
+const paymentInfoBody = z.object({
+  token: z.string(),
+  userId: z.number(),
+  amount: z.number(),
+});
 
 app.use(express.json());
 
@@ -10,33 +18,39 @@ app.get("/", (req, res) => {
 });
 
 app.post("/hdfc", async (req, res) => {
+  const paymentInformation = paymentInfoBody.safeParse(req.body);
 
-  const paymentInformation: {
-    token: string;
-    userId: string;
-    amount: string;
-  } = {
-    token: req.body.token,
-    userId: req.body.user_identifier,
-    amount: req.body.amount,
-  };
+  if (!paymentInformation.success) {
+    return res.json({ message: "Invalid Body" });
+  }
 
   try {
-    await db.$transaction([
-      db.balance.updateMany({
+    const alreadyDone = await prisma.onRampTransaction.findFirst({
+      where: {
+        token: paymentInformation.data.token,
+        userId: Number(paymentInformation.data.userId),
+        status: "Success",
+      },
+    });
+    
+    if (alreadyDone) {
+      return res.json({ message: "Already Captured" });
+    }
+
+    await prisma.$transaction([
+      prisma.balance.updateMany({
         where: {
-          userId: Number(paymentInformation.userId),
+          userId: Number(paymentInformation.data.userId),
         },
         data: {
           amount: {
-            // You can also get this from your DB
-            increment: Number(paymentInformation.amount),
+            increment: Number(paymentInformation.data.amount),
           },
         },
       }),
-      db.onRampTransaction.updateMany({
+      prisma.onRampTransaction.updateMany({
         where: {
-          token: paymentInformation.token,
+          token: paymentInformation.data.token,
         },
         data: {
           status: "Success",

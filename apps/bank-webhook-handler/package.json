@@ -21,7 +21,9 @@
   "license": "ISC",
   "dependencies": {
     "@ignotus/db": "*",
+    "esbuild": "^0.20.2",
     "express": "^4.19.2",
-    "tsup": "^8.0.2"
+    "tsup": "^8.0.2",
+    "zod": "^3.22.4"
   }
 }
