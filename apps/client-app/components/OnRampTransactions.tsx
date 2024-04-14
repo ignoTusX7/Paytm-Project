@@ -1,4 +1,5 @@
 import { Card } from "@ignotus/ui";
+import { getDateTime } from "../app/lib/getDateTime";
 
 export const OnRampTransactions = ({
   transactions,
@@ -10,6 +11,10 @@ export const OnRampTransactions = ({
     provider: string;
   }[];
 }) => {
+
+  
+
+
   if (!transactions.length) {
     return (
       <Card title="Recent Transactions">
@@ -25,22 +30,25 @@ export const OnRampTransactions = ({
             <div>
               <div className="text-sm font-semibold">Received INR</div>
               <div className="text-slate-600 text-xs">
-                {t.time.toDateString()}
+                {getDateTime(t.time)}
               </div>
             </div>
             <div className="flex flex-col items-center">
               <div className="flex flex-col justify-end ms-auto">
-                + Rs {t.amount / 100}
+                +{" "}
+                {(t.amount / 100).toLocaleString("en-IN", {
+                  style: "currency",
+                  currency: "INR",
+                })}
               </div>
               <div>
                 <p className="font-semibold">
-                  Status:{" "}
+                  Status:
                   <span
                     className={`${t.status === "Failure" ? "text-red-500" : "text-black"} ${t.status === "Success" ? "text-green-500" : "text-black"}`}
                   >
-                    {" "}
-                    {t.status}{" "}
-                  </span>{" "}
+                    {t.status}
+                  </span>
                 </p>
               </div>
             </div>
