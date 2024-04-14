@@ -7,6 +7,8 @@ import type { JWT } from "next-auth/jwt";
 export interface INewSession extends Session {
   user: {
     id: string | undefined;
+    name: string | undefined;
+    email: string | undefined;
   };
 }
 
@@ -15,6 +17,11 @@ export const authOption: AuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
+        name: {
+          label: "Name",
+          type: "text",
+          placeholder: "John",
+        },
         mobileNumber: {
           label: "Mobile Number",
           type: "text",
@@ -64,6 +71,7 @@ export const authOption: AuthOptions = {
               },
             },
           });
+
           return {
             id: newUser.id,
             name: newUser.name,
