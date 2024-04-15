@@ -1,6 +1,6 @@
 import GoogleProvider from "next-auth/providers/google";
 import db from "@ignotus/db/client";
-import { AuthOptions } from "next-auth";
+import type { AuthOptions } from "next-auth";
 
 export const authOptions:AuthOptions = {
   providers: [

@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { Sidebar } from "../../components/Sidebar";
-import { authOption } from "../lib/auth";
+import {  authOptions } from "../lib/auth";
 import { redirect } from "next/navigation";
 
 export default async function Layout({
@@ -9,7 +9,7 @@ export default async function Layout({
   children: React.ReactNode;
 }): Promise<JSX.Element> {
 
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
   if (!session?.user) {
     return redirect("/api/auth/signin");
   }

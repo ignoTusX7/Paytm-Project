@@ -2,10 +2,10 @@
 
 import db from "@ignotus/db/client";
 import { getServerSession } from "next-auth";
-import { INewSession, authOption } from "../auth";
+import { INewSession, authOptions } from "../auth";
 
 export const getP2PTransfers = async () => {
-  const session: INewSession | null = await getServerSession(authOption);
+  const session: INewSession | null = await getServerSession(authOptions);
   const myID = Number(session?.user.id);
 
   try {

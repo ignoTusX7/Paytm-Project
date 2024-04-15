@@ -1,11 +1,11 @@
 import { getServerSession } from "next-auth";
 import React from "react";
-import { INewSession, authOption } from "../../lib/auth";
+import { INewSession, authOptions } from "../../lib/auth";
 import { Card } from "@ignotus/ui";
 import { getBalance } from "../../lib/actions/getBalance";
 
 export default async function Dashboard() {
-  const session: INewSession | null = await getServerSession(authOption);
+  const session: INewSession | null = await getServerSession(authOptions);
   const balance = await getBalance();
   return (
     <div className="w-[90%] mx-auto md:w-screen">

@@ -1,6 +1,6 @@
 "use server";
 import { getServerSession } from "next-auth";
-import { authOption } from "../auth";
+import { authOptions } from "../auth";
 import prisma from "@ignotus/db/client";
 
 interface TransferResponse {
@@ -13,7 +13,7 @@ export async function p2pTransfer(
   amount: number
 ): Promise<TransferResponse> {
   try {
-    const session = await getServerSession(authOption);
+    const session = await getServerSession(authOptions);
     const from = session?.user?.id;
 
     if (!from) {

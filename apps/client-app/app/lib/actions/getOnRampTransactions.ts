@@ -1,10 +1,10 @@
 "use server";
 import { getServerSession } from "next-auth";
-import { authOption } from "../auth";
+import { authOptions } from "../auth";
 import db from "@ignotus/db/client";
 
 export async function getOnRampTransactions() {
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
   const txns = await db.onRampTransaction.findMany({
     where: {
       userId: Number(session?.user?.id),

@@ -1,7 +1,7 @@
 "use server";
 
 import { getServerSession } from "next-auth";
-import { authOption } from "../auth";
+import { authOptions } from "../auth";
 import db from "@ignotus/db/client";
 
 export async function createOnRampTransaction(
@@ -9,7 +9,7 @@ export async function createOnRampTransaction(
   amount: number
 ) {
   // Ideally the token should come from the banking provider (hdfc/axis)
-  const session = await getServerSession(authOption);
+  const session = await getServerSession(authOptions);
 
   if (!session?.user || !session.user?.id) {
     return {
