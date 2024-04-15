@@ -21,6 +21,8 @@ export function SendCard() {
       if (res) setUser(res);
       else {
         setUser({ email: "", mobileNumber: "", name: "" });
+        setAmount("");
+        setNumber("");
         alert("User not found");
       }
     } catch (error) {
@@ -36,9 +38,6 @@ export function SendCard() {
       const res = await p2pTransfer(number, Number(amount) * 100);
       if (res.status === "Success") {
         alert("Payment Done");
-        setAmount("");
-        setNumber("");
-        setUser({ email: "", mobileNumber: "", name: "" });
       } else {
         throw new Error(res.message || "Unknown error occurred");
       }
@@ -51,6 +50,9 @@ export function SendCard() {
       }
       alert("Error sending payment");
     } finally {
+      setAmount("");
+      setNumber("");
+      setUser({ email: "", mobileNumber: "", name: "" });
       setLoading(false);
     }
   };
@@ -63,6 +65,7 @@ export function SendCard() {
             <div className="mb-4 flex items-center">
               <TextInput
                 label="Number"
+                value={number}
                 handleOnChange={(e) => setNumber(e.target.value)}
               />
               <div className="ms-auto" onClick={handleFetchUser}>
@@ -71,6 +74,7 @@ export function SendCard() {
             </div>
             <div>
               <TextInput
+                value={amount}
                 label="Amount"
                 handleOnChange={(e) => setAmount(e.target.value)}
               />

@@ -16,7 +16,6 @@ export async function createOnRampTransaction(
       message: "Unauthenticated request",
     };
   }
-  console.log(amount);
 
   const token = (Math.random() * 1000).toString();
 
