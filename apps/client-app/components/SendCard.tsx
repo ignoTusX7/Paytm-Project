@@ -3,6 +3,7 @@ import { Button, Card, Center, TextInput } from "@ignotus/ui";
 import { useState } from "react";
 import { p2pTransfer } from "../app/lib/actions/p2pTransfer";
 import { fetchUser } from "../app/lib/actions/fetchUser";
+import { Toaster, toast } from "sonner";
 
 export function SendCard() {
   const [number, setNumber] = useState("");
@@ -23,11 +24,23 @@ export function SendCard() {
         setUser({ email: "", mobileNumber: "", name: "" });
         setAmount("");
         setNumber("");
-        alert("User not found");
+        return toast.error("User not found", {
+          duration: 3000,
+          action: {
+            label: "Close",
+            onClick: () => toast.dismiss("close"),
+          },
+        });
       }
     } catch (error) {
       console.error("Error fetching user:", error);
-      alert("Error fetching user");
+      return toast.error("Error while fetching user", {
+        duration: 3000,
+        action: {
+          label: "Close",
+          onClick: () => toast.dismiss("close"),
+        },
+      });
     } finally {
       setLoading(false);
     }
@@ -37,18 +50,36 @@ export function SendCard() {
     try {
       const res = await p2pTransfer(number, Number(amount) * 100);
       if (res.status === "Success") {
-        alert("Payment Done");
+        return toast.success("Payment Done", {
+          duration: 3000,
+          action: {
+            label: "Close",
+            onClick: () => toast.dismiss("close"),
+          },
+        });
       } else {
         throw new Error(res.message || "Unknown error occurred");
       }
-    } catch (error) {
+    } catch (error: any) {
       // console.error("Error sending payment:", error);
 
       if (error.message) {
         console.error(error.message);
-        return alert(error.message);
+        return toast.error(error.message, {
+          duration: 3000,
+          action: {
+            label: "Close",
+            onClick: () => toast.dismiss("close"),
+          },
+        });
       }
-      alert("Error sending payment");
+      return toast.error("Error while Sending", {
+        duration: 3000,
+        action: {
+          label: "Close",
+          onClick: () => toast.dismiss("close"),
+        },
+      });
     } finally {
       setAmount("");
       setNumber("");
@@ -59,6 +90,7 @@ export function SendCard() {
 
   return (
     <div className="h-[90vh] flex flex-col md:flex-row gap-4 mx-auto md:mx-0">
+      <Toaster />
       <Center>
         <Card title="Send">
           <div className="min-w-72 pt-2">
