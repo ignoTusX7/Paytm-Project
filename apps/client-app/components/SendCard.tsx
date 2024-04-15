@@ -30,19 +30,25 @@ export function SendCard() {
       setLoading(false);
     }
   };
-
   const handleSend = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const res = await p2pTransfer(number, Number(amount) * 100);
-      if (res.status && res.status === "Success") {
+      if (res.status === "Success") {
         alert("Payment Done");
         setAmount("");
         setNumber("");
         setUser({ email: "", mobileNumber: "", name: "" });
+      } else {
+        throw new Error(res.message || "Unknown error occurred");
       }
     } catch (error) {
-      console.error("Error sending payment:", error);
+      // console.error("Error sending payment:", error);
+
+      if (error.message) {
+        console.error(error.message);
+        return alert(error.message);
+      }
       alert("Error sending payment");
     } finally {
       setLoading(false);

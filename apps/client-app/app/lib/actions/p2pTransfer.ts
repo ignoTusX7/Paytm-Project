@@ -3,61 +3,72 @@ import { getServerSession } from "next-auth";
 import { authOption } from "../auth";
 import prisma from "@ignotus/db/client";
 
-export async function p2pTransfer(to: string, amount: number) {
-  const session = await getServerSession(authOption);
+interface TransferResponse {
+  status: "Success" | "Failure";
+  message: string;
+}
 
-  const from = session?.user?.id;
+export async function p2pTransfer(
+  to: string,
+  amount: number
+): Promise<TransferResponse> {
+  try {
+    const session = await getServerSession(authOption);
+    const from = session?.user?.id;
 
-  if (!from) {
-    return {
-      message: "Error while sending",
-    };
-  }
-
-  const toUser = await prisma.user.findFirst({
-    where: {
-      mobileNumber: to,
-    },
-  });
-
-  if (!toUser) {
-    return {
-      message: "User not found",
-    };
-  }
-
-  await prisma.$transaction(async (tx) => {
-    await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId" = ${Number(from)} FOR UPDATE`;
-
-    const fromBalance = await tx.balance.findUnique({
-      where: { userId: Number(from) },
-    });
-
-    if (!fromBalance || fromBalance.amount < amount) {
-      throw new Error("Insufficient funds");
+    if (!from) {
+      return { status: "Failure", message: "Error while sending" };
     }
 
-    await tx.balance.update({
-      where: { userId: Number(from) },
-      data: { amount: { decrement: amount } },
-    });
-
-    await tx.balance.update({
-      where: { userId: toUser.id },
-      data: { amount: { increment: amount } },
-    });
-
-    await tx.p2pTransfer.create({
-      data: {
-        fromUserId: Number(from),
-        toUserId: toUser.id,
-        amount,
-        timestamp: new Date(),
+    const toUser = await prisma.user.findFirst({
+      where: {
+        mobileNumber: to,
       },
     });
-  });
-  return {
-    status: "Success",
-    message: "Successfully Transffered",
-  };
+
+    if (!toUser) {
+      return { status: "Failure", message: "User not found" };
+    }
+
+    if (Number(toUser.id) === Number(from)) {
+      throw new Error("You can't send Money to Yourself");
+      // return { status: "Failure", message: "You can't send Money to Yourself" };
+    }
+
+    await prisma.$transaction(async (tx) => {
+      const fromBalance = await tx.balance.findUnique({
+        where: { userId: Number(from) },
+      });
+
+      if (!fromBalance || fromBalance.amount < amount) {
+        throw new Error("Insufficient Balance");
+      }
+
+      await tx.balance.update({
+        where: { userId: Number(from) },
+        data: { amount: { decrement: amount } },
+      });
+
+      await tx.balance.update({
+        where: { userId: toUser.id },
+        data: { amount: { increment: amount } },
+      });
+
+      await tx.p2pTransfer.create({
+        data: {
+          fromUserId: Number(from),
+          toUserId: toUser.id,
+          amount,
+          timestamp: new Date(),
+        },
+      });
+    });
+
+    return { status: "Success", message: "Successfully Transferred" };
+  } catch (error) {
+    return {
+      status: "Failure",
+      message: error.message || "Internal Server Error",
+    };
+  }
 }
